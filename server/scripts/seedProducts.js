@@ -21,7 +21,7 @@ const seedProducts = async () => {
         console.log('🌱 Starting database seed...\n');
 
         // Read products from JSON file
-        const productsPath = join(__dirname, '../../src/data/products.json');
+        const productsPath = join(__dirname, '../../client/src/data/products.json');
         const productsData = JSON.parse(readFileSync(productsPath, 'utf-8'));
 
         console.log(`📦 Found ${productsData.length} products to seed`);

@@ -7,7 +7,12 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+# Dependencies
 node_modules
+client/node_modules
+server/node_modules
+
+# Build outputs
 dist
 dist-ssr
 *.local
@@ -24,4 +29,10 @@ dist-ssr
 *.sw?
 
 # Environment variables
+.env
+client/.env
 server/.env
+
+# Vite cache
+.vite
+client/.vite
