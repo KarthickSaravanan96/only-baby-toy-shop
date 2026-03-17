@@ -49,17 +49,20 @@ const SignIn = () => {
             }
         } catch (err) {
             console.error('Login error:', err);
-            setError('Error connecting to server. Falling back to demo mode.');
+            setError(`Cannot connect to server at ${import.meta.env.VITE_API_URL || 'http://localhost:5000'}. Falling back to demo mode.`);
+
             // Fallback for demo
             if (formData.email === 'onlybaby7999@gmail.com' && formData.password === 'onlybaby7999') {
                 localStorage.setItem('isLoggedIn', 'true');
                 localStorage.setItem('userEmail', formData.email);
                 localStorage.setItem('userName', 'Raja');
+                localStorage.setItem('token', 'demo-token');
                 localStorage.setItem('userRole', 'admin');
                 navigate('/admin');
             } else {
                 localStorage.setItem('isLoggedIn', 'true');
                 localStorage.setItem('userEmail', formData.email);
+                localStorage.setItem('token', 'demo-token');
                 localStorage.setItem('userRole', 'user');
                 navigate('/');
             }

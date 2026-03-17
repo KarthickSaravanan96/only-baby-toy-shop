@@ -75,7 +75,7 @@ const AdminDashboard = () => {
             if (error.response?.status === 401 || error.response?.status === 403) {
                 setFetchError('Session expired or unauthorised. Please sign out and sign in again as admin.');
             } else if (error.code === 'ERR_NETWORK') {
-                setFetchError('Cannot connect to backend server. Make sure the backend is running on port 5000.');
+                setFetchError(`Cannot connect to backend server at ${API_URL}. Check your Vercel/Environment settings.`);
             } else {
                 setFetchError(error.response?.data?.message || 'Failed to load data. Try again.');
             }
