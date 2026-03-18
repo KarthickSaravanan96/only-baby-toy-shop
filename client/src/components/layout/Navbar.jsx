@@ -135,6 +135,8 @@ const Navbar = () => {
 
                             <Link to="/about" className="px-4 py-2 rounded-2xl text-sm font-extrabold transition-all duration-300 text-[#1E1E2E] hover:text-[#5BB8F5] hover:bg-[#E8F5FE]"
                                 style={{ fontFamily: "'Nunito', sans-serif" }}>About</Link>
+                            <Link to="/contact" className="px-4 py-2 rounded-2xl text-sm font-extrabold transition-all duration-300 text-[#1E1E2E] hover:text-[#5BB8F5] hover:bg-[#E8F5FE]"
+                                style={{ fontFamily: "'Nunito', sans-serif" }}>Contact</Link>
                         </div>
 
                         {/* ── Search Bar UI (Expanded) ── */}
@@ -207,6 +209,39 @@ const Navbar = () => {
                     </div>
                 </div>
             </nav>
+
+            {/* ── Mobile Menu Overlay ── */}
+            <div className={`fixed inset-0 z-[60] lg:hidden transition-all duration-500 ${isMenuOpen ? 'visible' : 'invisible pointer-events-none'}`}>
+                {/* Backdrop */}
+                <div className={`absolute inset-0 bg-black/40 backdrop-blur-sm transition-opacity duration-500 ${isMenuOpen ? 'opacity-100' : 'opacity-0'}`} onClick={() => setIsMenuOpen(false)} />
+
+                {/* Content Drawer */}
+                <div className={`absolute left-0 top-0 bottom-0 w-[300px] bg-white shadow-2xl transition-transform duration-500 transform ${isMenuOpen ? 'translate-x-0' : '-translate-x-full'} p-8 flex flex-col`}>
+                    <div className="flex items-center justify-between mb-12">
+                        <span className="font-black text-xl text-[#FF1E5E]" style={{ fontFamily: "'Nunito', sans-serif" }}>only baby</span>
+                        <button onClick={() => setIsMenuOpen(false)} className="p-2 rounded-xl bg-[#F8FAFF] text-[#1E1E2E]">
+                            <X className="w-5 h-5" />
+                        </button>
+                    </div>
+
+                    <div className="flex flex-col gap-6 flex-1">
+                        <Link to="/" className="text-2xl font-black text-[#1E1E2E] hover:text-[#5BB8F5] transition-all">Home</Link>
+                        <Link to="/products" className="text-2xl font-black text-[#1E1E2E] hover:text-[#5BB8F5] transition-all">Products</Link>
+                        <Link to="/about" className="text-2xl font-black text-[#1E1E2E] hover:text-[#5BB8F5] transition-all">About</Link>
+                        <Link to="/contact" className="text-2xl font-black text-[#1E1E2E] hover:text-[#5BB8F5] transition-all">Contact</Link>
+                    </div>
+
+                    <div className="pt-8 border-t border-[#EEF0F8] space-y-4">
+                        {isLoggedIn ? (
+                            <button onClick={handleSignOut} className="flex items-center gap-3 text-secondary-pink font-black uppercase tracking-widest text-[10px]">
+                                <LogOut className="w-4 h-4" /> Sign Out
+                            </button>
+                        ) : (
+                            <Link to="/signin" className="btn-primary w-full text-center py-4 rounded-2xl block text-sm">Sign In</Link>
+                        )}
+                    </div>
+                </div>
+            </div>
         </>
     );
 };

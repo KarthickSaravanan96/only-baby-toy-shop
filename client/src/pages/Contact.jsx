@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { MapPin, Phone, Mail, Clock, Send } from 'lucide-react';
-import Button from '../components/common/Button';
+import { MapPin, Phone, Mail, Clock, Send, MessageCircle, HelpCircle, Heart, Star } from 'lucide-react';
+import SEO from '../components/common/SEO';
 
 const Contact = () => {
     const [formData, setFormData] = useState({
@@ -10,235 +10,267 @@ const Contact = () => {
         subject: '',
         message: ''
     });
+    const [status, setStatus] = useState(null);
 
     const handleChange = (e) => {
-        setFormData({
-            ...formData,
-            [e.target.name]: e.target.value
-        });
+        setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        alert('Thank you for contacting us! We will get back to you soon. 🎉');
-        setFormData({
-            name: '',
-            email: '',
-            phone: '',
-            subject: '',
-            message: ''
-        });
+        setStatus('sending');
+        setTimeout(() => {
+            setStatus('success');
+            setFormData({ name: '', email: '', phone: '', subject: '', message: '' });
+            setTimeout(() => setStatus(null), 5000);
+        }, 1500);
     };
 
+    const contactMethods = [
+        {
+            icon: <Phone className="w-5 h-5" />,
+            label: "Give us a call",
+            value: "+91 98765 43210",
+            desc: "Mon-Sat, 9 AM - 7 PM",
+            color: "text-[#5BB8F5]",
+            bg: "bg-[#5BB8F5]/10"
+        },
+        {
+            icon: <Mail className="w-5 h-5" />,
+            label: "Drop an email",
+            value: "hello@onlybaby.in",
+            desc: "24/7 Response time",
+            color: "text-[#FF1E5E]",
+            bg: "bg-[#FF1E5E]/10"
+        },
+        {
+            icon: <MessageCircle className="w-5 h-5" />,
+            label: "Chat with us",
+            value: "WhatsApp Chat",
+            desc: "Fastest response",
+            color: "text-[#4CC9A0]",
+            bg: "bg-[#4CC9A0]/10"
+        }
+    ];
+
     return (
-        <div className="bg-light min-h-screen">
-            {/* Hero Section */}
-            <section className="bg-gradient-to-r from-secondary to-blue-500 py-20 px-4">
-                <div className="max-w-4xl mx-auto text-center text-white">
-                    <h1 className="font-display font-bold text-5xl md:text-6xl mb-6">
-                        Get in Touch 📞
-                    </h1>
-                    <p className="text-xl md:text-2xl">
-                        We'd love to hear from you! Have questions? We're here to help.
-                    </p>
+        <div className="bg-white min-h-screen">
+            <SEO
+                title="Contact Us - Only Baby"
+                description="Have questions? Reach out to Only Baby for support with your orders, products, or baby care advice."
+            />
+
+            {/* Header Section */}
+            <header className="bg-[#F8FAFF] py-24 px-6 border-b border-[#EEF0F8] relative overflow-hidden">
+                <div className="absolute top-0 right-0 p-10 opacity-5 pointer-events-none">
+                    <Heart className="w-64 h-64 text-[#FF1E5E]" />
                 </div>
-            </section>
+                <div className="max-w-6xl mx-auto relative z-10">
+                    <div className="flex flex-col md:flex-row justify-between items-end gap-10">
+                        <div className="space-y-4">
+                            <span className="inline-block px-4 py-1.5 bg-[#5BB8F5]/10 text-[#5BB8F5] text-[10px] font-black uppercase tracking-widest rounded-full">Support Central</span>
+                            <h1 className="text-5xl md:text-7xl font-black text-[#1E1E2E] tracking-tight" style={{ fontFamily: "'Nunito', sans-serif" }}>
+                                Connect with <span className="text-[#FF1E5E]">Joy</span>
+                            </h1>
+                            <p className="text-[#9898BB] font-bold text-lg max-w-xl leading-relaxed">
+                                We're here to help you make your baby's journey magical. Have a question about a product or your order? We're all ears!
+                            </p>
+                        </div>
+                        <div className="hidden lg:flex items-center gap-6">
+                            <div className="flex -space-x-4">
+                                {[1, 2, 3, 4].map(i => (
+                                    <div key={i} className="w-12 h-12 rounded-full border-4 border-white overflow-hidden shadow-sm">
+                                        <img src={`https://i.pravatar.cc/150?img=${i + 10}`} alt="Support" className="w-full h-full object-cover" />
+                                    </div>
+                                ))}
+                            </div>
+                            <div>
+                                <div className="flex text-[#FF1E5E] mb-1">
+                                    {[1, 2, 3, 4, 5].map(i => <Star key={i} className="w-3.5 h-3.5 fill-current" />)}
+                                </div>
+                                <p className="text-[10px] font-black uppercase tracking-widest text-[#9898BB]">Trusted by 50k+ Parents</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
 
-            <div className="max-w-7xl mx-auto px-4 py-16">
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                    {/* Contact Form */}
-                    <div className="lg:col-span-2">
-                        <div className="bg-white rounded-3xl p-8 shadow-lg">
-                            <h2 className="font-display font-bold text-3xl text-dark mb-6">
-                                Send us a Message 💌
-                            </h2>
+            <main className="max-w-6xl mx-auto px-6 -mt-12 mb-20">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
 
-                            <form onSubmit={handleSubmit} className="space-y-6">
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                    <div>
-                                        <label className="block text-dark font-semibold mb-2">
-                                            Your Name *
-                                        </label>
+                    {/* Contact Form Support */}
+                    <div className="lg:col-span-12 xl:col-span-8">
+                        <div className="bg-white rounded-[50px] border-2 border-[#EEF0F8] p-8 md:p-12 shadow-2xl shadow-[#5BB8F5]/5 relative overflow-hidden">
+
+                            {status === 'success' && (
+                                <div className="absolute inset-0 bg-white/95 z-50 flex flex-col items-center justify-center text-center p-10 animate-fade-in">
+                                    <div className="w-24 h-24 bg-[#4CC9A0]/10 rounded-full flex items-center justify-center text-[#4CC9A0] mb-6 animate-bounce">
+                                        <Send className="w-10 h-10" />
+                                    </div>
+                                    <h3 className="text-3xl font-black text-[#1E1E2E] mb-2">Message Delivered!</h3>
+                                    <p className="text-[#9898BB] font-bold max-w-xs">We've received your spark of joy. Our team will get back to you within 24 hours.</p>
+                                    <button onClick={() => setStatus(null)} className="mt-8 text-[11px] font-black uppercase tracking-widest text-[#5BB8F5] underline">Send another message</button>
+                                </div>
+                            )}
+
+                            <h2 className="text-3xl font-black text-[#1E1E2E] mb-10" style={{ fontFamily: "'Nunito', sans-serif" }}>Send us a <span className="gradient-text">Secret Message</span></h2>
+
+                            <form onSubmit={handleSubmit} className="space-y-8">
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                    <div className="space-y-2">
+                                        <label className="text-[10px] font-black uppercase tracking-widest text-[#9898BB] ml-1">Parent Name</label>
                                         <input
-                                            type="text"
-                                            name="name"
-                                            value={formData.name}
-                                            onChange={handleChange}
-                                            required
-                                            className="w-full px-4 py-3 rounded-xl border-2 border-gray-300 focus:border-primary outline-none transition-colors"
-                                            placeholder="John Doe"
+                                            name="name" value={formData.name} onChange={handleChange} required
+                                            className="w-full bg-[#F8FAFF] border border-[#EEF0F8] rounded-2xl px-6 py-4 outline-none focus:border-[#5BB8F5] focus:bg-white transition-all font-bold text-[#1E1E2E]"
+                                            placeholder="Enter your name"
                                         />
                                     </div>
-
-                                    <div>
-                                        <label className="block text-dark font-semibold mb-2">
-                                            Email Address *
-                                        </label>
+                                    <div className="space-y-2">
+                                        <label className="text-[10px] font-black uppercase tracking-widest text-[#9898BB] ml-1">Email Address</label>
                                         <input
-                                            type="email"
-                                            name="email"
-                                            value={formData.email}
-                                            onChange={handleChange}
-                                            required
-                                            className="w-full px-4 py-3 rounded-xl border-2 border-gray-300 focus:border-primary outline-none transition-colors"
-                                            placeholder="john@example.com"
+                                            name="email" type="email" value={formData.email} onChange={handleChange} required
+                                            className="w-full bg-[#F8FAFF] border border-[#EEF0F8] rounded-2xl px-6 py-4 outline-none focus:border-[#5BB8F5] focus:bg-white transition-all font-bold text-[#1E1E2E]"
+                                            placeholder="hello@example.com"
                                         />
                                     </div>
                                 </div>
 
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                    <div>
-                                        <label className="block text-dark font-semibold mb-2">
-                                            Phone Number
-                                        </label>
-                                        <input
-                                            type="tel"
-                                            name="phone"
-                                            value={formData.phone}
-                                            onChange={handleChange}
-                                            className="w-full px-4 py-3 rounded-xl border-2 border-gray-300 focus:border-primary outline-none transition-colors"
-                                            placeholder="+91 98765 43210"
-                                        />
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                    <div className="space-y-2">
+                                        <label className="text-[10px] font-black uppercase tracking-widest text-[#9898BB] ml-1">Subject</label>
+                                        <select
+                                            name="subject" value={formData.subject} onChange={handleChange} required
+                                            className="w-full bg-[#F8FAFF] border border-[#EEF0F8] rounded-2xl px-6 py-4 outline-none focus:border-[#5BB8F5] focus:bg-white transition-all font-bold text-[#1E1E2E] appearance-none"
+                                        >
+                                            <option value="">Select a topic</option>
+                                            <option value="Order Tracking">Order Tracking</option>
+                                            <option value="Product Question">Product Question</option>
+                                            <option value="Return / Exchange">Return / Exchange</option>
+                                            <option value="Collaboration">Collaboration</option>
+                                            <option value="Feedback">Feedback</option>
+                                        </select>
                                     </div>
-
-                                    <div>
-                                        <label className="block text-dark font-semibold mb-2">
-                                            Subject *
-                                        </label>
+                                    <div className="space-y-2">
+                                        <label className="text-[10px] font-black uppercase tracking-widest text-[#9898BB] ml-1">Order ID (optional)</label>
                                         <input
-                                            type="text"
-                                            name="subject"
-                                            value={formData.subject}
-                                            onChange={handleChange}
-                                            required
-                                            className="w-full px-4 py-3 rounded-xl border-2 border-gray-300 focus:border-primary outline-none transition-colors"
-                                            placeholder="How can we help?"
+                                            name="phone" value={formData.phone} onChange={handleChange}
+                                            className="w-full bg-[#F8FAFF] border border-[#EEF0F8] rounded-2xl px-6 py-4 outline-none focus:border-[#5BB8F5] focus:bg-white transition-all font-bold text-[#1E1E2E]"
+                                            placeholder="#OB2024..."
                                         />
                                     </div>
                                 </div>
 
-                                <div>
-                                    <label className="block text-dark font-semibold mb-2">
-                                        Message *
-                                    </label>
+                                <div className="space-y-2">
+                                    <label className="text-[10px] font-black uppercase tracking-widest text-[#9898BB] ml-1">How can we help?</label>
                                     <textarea
-                                        name="message"
-                                        value={formData.message}
-                                        onChange={handleChange}
-                                        required
-                                        rows="6"
-                                        className="w-full px-4 py-3 rounded-xl border-2 border-gray-300 focus:border-primary outline-none transition-colors resize-none"
-                                        placeholder="Tell us what you're thinking..."
-                                    ></textarea>
+                                        name="message" value={formData.message} onChange={handleChange} required rows={6}
+                                        className="w-full bg-[#F8FAFF] border border-[#EEF0F8] rounded-3xl px-6 py-5 outline-none focus:border-[#5BB8F5] focus:bg-white transition-all font-bold text-[#1E1E2E] resize-none"
+                                        placeholder="Type your message here..."
+                                    />
                                 </div>
 
-                                <Button type="submit" size="lg" className="w-full md:w-auto flex items-center gap-2">
-                                    <Send className="w-5 h-5" />
-                                    Send Message
-                                </Button>
+                                <button
+                                    type="submit" disabled={status === 'sending'}
+                                    className="btn-primary w-full md:w-auto px-12 py-5 rounded-2xl flex items-center justify-center gap-3 active:scale-95 transition-transform"
+                                >
+                                    {status === 'sending' ? (
+                                        <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                                    ) : (
+                                        <>
+                                            <Send className="w-5 h-5" />
+                                            Send My Message
+                                        </>
+                                    )}
+                                </button>
                             </form>
                         </div>
                     </div>
 
-                    {/* Contact Info */}
-                    <div className="space-y-6">
-                        {/* Address */}
-                        <div className="bg-white rounded-2xl p-6 shadow-md">
-                            <div className="flex items-start gap-4">
-                                <div className="bg-primary/10 p-3 rounded-full">
-                                    <MapPin className="w-6 h-6 text-primary" />
+                    {/* Quick Info & Cards */}
+                    <div className="lg:col-span-12 xl:col-span-4 space-y-8">
+
+                        {/* Direct Contact Cards */}
+                        <div className="space-y-4">
+                            {contactMethods.map((m, i) => (
+                                <div key={i} className="group bg-white p-6 rounded-[32px] border-2 border-[#EEF0F8] hover:border-[#5BB8F5]/30 transition-all flex items-center gap-6">
+                                    <div className={`w-14 h-14 rounded-2xl ${m.bg} flex items-center justify-center ${m.color} group-hover:scale-110 transition-transform`}>
+                                        {m.icon}
+                                    </div>
+                                    <div>
+                                        <h4 className="text-[10px] font-black uppercase tracking-widest text-[#9898BB] mb-0.5">{m.label}</h4>
+                                        <p className="font-extrabold text-[#1E1E2E] text-lg">{m.value}</p>
+                                        <p className="text-[10px] text-[#9898BB] font-bold mt-0.5">{m.desc}</p>
+                                    </div>
                                 </div>
-                                <div>
-                                    <h3 className="font-display font-bold text-lg text-dark mb-2">
-                                        Visit Our Store
-                                    </h3>
-                                    <p className="text-gray-600">
-                                        123 Toy Street, Fun Plaza<br />
-                                        Mumbai, Maharashtra 400001<br />
-                                        India
-                                    </p>
+                            ))}
+                        </div>
+
+                        {/* Store Location */}
+                        <div className="bg-[#1E1E2E] p-8 rounded-[40px] text-white space-y-6 relative overflow-hidden">
+                            <div className="absolute -bottom-10 -right-10 opacity-10">
+                                <MapPin className="w-40 h-40" />
+                            </div>
+                            <div className="flex items-center gap-3">
+                                <div className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center">
+                                    <MapPin className="w-5 h-5 text-[#5BB8F5]" />
                                 </div>
+                                <h3 className="text-xl font-black">Flagship Store</h3>
+                            </div>
+                            <div className="space-y-1">
+                                <p className="font-bold opacity-60 text-xs uppercase tracking-widest">Visit us at</p>
+                                <p className="font-bold text-sm leading-relaxed">
+                                    Only Baby Experience Center,<br />
+                                    Level 2, Premium Plaza, Bandra West,<br />
+                                    Mumbai, Maharashtra 400050
+                                </p>
+                            </div>
+                            <div className="pt-4 flex items-center justify-between border-t border-white/10">
+                                <div className="flex items-center gap-2">
+                                    <div className="w-2 h-2 bg-[#4CC9A0] rounded-full animate-pulse" />
+                                    <span className="text-[10px] font-black uppercase tracking-widest opacity-60">Store is Open</span>
+                                </div>
+                                <button className="text-[10px] font-black uppercase tracking-widest text-[#5BB8F5] hover:underline">Get Directions</button>
                             </div>
                         </div>
 
-                        {/* Phone */}
-                        <div className="bg-white rounded-2xl p-6 shadow-md">
-                            <div className="flex items-start gap-4">
-                                <div className="bg-secondary/10 p-3 rounded-full">
-                                    <Phone className="w-6 h-6 text-secondary" />
-                                </div>
-                                <div>
-                                    <h3 className="font-display font-bold text-lg text-dark mb-2">
-                                        Call Us
-                                    </h3>
-                                    <p className="text-gray-600">
-                                        +91 98765 43210<br />
-                                        +91 12345 67890<br />
-                                        <span className="text-sm">(Mon-Sat, 9 AM - 6 PM)</span>
-                                    </p>
-                                </div>
+                        {/* FAQ Card */}
+                        <div className="bg-white p-8 rounded-[40px] border-2 border-[#EEF0F8] flex flex-col items-center text-center space-y-4">
+                            <div className="w-16 h-16 bg-[#F8FAFF] rounded-full flex items-center justify-center text-[#5BB8F5]">
+                                <HelpCircle className="w-8 h-8" />
                             </div>
+                            <div>
+                                <h3 className="text-xl font-black text-[#1E1E2E]">Need Quick Answers?</h3>
+                                <p className="text-sm text-[#9898BB] font-bold mt-1">Check our most common questions from parents.</p>
+                            </div>
+                            <button className="btn-outline w-full rounded-2xl py-3 border-[#EEF0F8] text-[#1E1E2E] hover:border-[#5BB8F5] hover:bg-[#5BB8F5] hover:text-white">View FAQs</button>
                         </div>
 
-                        {/* Email */}
-                        <div className="bg-white rounded-2xl p-6 shadow-md">
-                            <div className="flex items-start gap-4">
-                                <div className="bg-accent/30 p-3 rounded-full">
-                                    <Mail className="w-6 h-6 text-orange-600" />
-                                </div>
-                                <div>
-                                    <h3 className="font-display font-bold text-lg text-dark mb-2">
-                                        Email Us
-                                    </h3>
-                                    <p className="text-gray-600">
-                                        support@toyland.com<br />
-                                        sales@toyland.com
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
+                    </div>
+                </div>
+            </main>
 
-                        {/* Hours */}
-                        <div className="bg-white rounded-2xl p-6 shadow-md">
-                            <div className="flex items-start gap-4">
-                                <div className="bg-purple-100 p-3 rounded-full">
-                                    <Clock className="w-6 h-6 text-purple-600" />
-                                </div>
-                                <div>
-                                    <h3 className="font-display font-bold text-lg text-dark mb-2">
-                                        Business Hours
-                                    </h3>
-                                    <p className="text-gray-600">
-                                        Monday - Saturday<br />
-                                        9:00 AM - 6:00 PM<br />
-                                        Sunday: Closed
-                                    </p>
-                                </div>
-                            </div>
+            {/* Support Values Section */}
+            <section className="bg-[#F8FAFF] py-20 px-6 border-t border-[#EEF0F8]">
+                <div className="max-w-6xl mx-auto">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-12 text-center">
+                        <div className="space-y-4">
+                            <div className="flex justify-center"><Clock className="w-10 h-10 text-[#FF1E5E]" /></div>
+                            <h4 className="text-xl font-black text-[#1E1E2E]">Instant Response</h4>
+                            <p className="text-sm text-[#9898BB] font-bold leading-relaxed px-4">Our specialized agents are trained to give you the fastest advice for your little one.</p>
+                        </div>
+                        <div className="space-y-4">
+                            <div className="flex justify-center"><Heart className="w-10 h-10 text-[#5BB8F5]" /></div>
+                            <h4 className="text-xl font-black text-[#1E1E2E]">Expert Care</h4>
+                            <p className="text-sm text-[#9898BB] font-bold leading-relaxed px-4">We are parents too. We understand the importance of quality and safety in every product.</p>
+                        </div>
+                        <div className="space-y-4">
+                            <div className="flex justify-center"><Send className="w-10 h-10 text-[#4CC9A0]" /></div>
+                            <h4 className="text-xl font-black text-[#1E1E2E]">Global Shipping</h4>
+                            <p className="text-sm text-[#9898BB] font-bold leading-relaxed px-4">No matter where you are, we ensure the joy of parenting reaches your doorstep safely.</p>
                         </div>
                     </div>
                 </div>
-
-                {/* Map Placeholder */}
-                <div className="mt-12">
-                    <div className="bg-white rounded-3xl p-8 shadow-lg">
-                        <h2 className="font-display font-bold text-3xl text-dark mb-6 text-center">
-                            Find Us Here 📍
-                        </h2>
-                        <div className="bg-gray-200 rounded-2xl h-96 flex items-center justify-center">
-                            <div className="text-center">
-                                <MapPin className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-                                <p className="text-gray-500 text-lg">
-                                    Google Map Placeholder
-                                </p>
-                                <p className="text-gray-400 text-sm mt-2">
-                                    (Map integration would go here)
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            </section>
         </div>
     );
 };
