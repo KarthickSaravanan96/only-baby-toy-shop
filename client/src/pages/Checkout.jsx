@@ -324,11 +324,11 @@ const Checkout = () => {
                     </div>
 
                     <div className="flex flex-col gap-3">
-                        <Link to="/" className="btn-primary w-full justify-center py-3 text-sm">
-                            Back to Home
+                        <Link to="/orders" className="btn-primary w-full justify-center py-3 text-sm">
+                            View My Orders
                         </Link>
-                        <Link to="/products" className="btn-outline w-full justify-center py-3 text-sm">
-                            Continue Shopping
+                        <Link to="/" className="btn-outline w-full justify-center py-3 text-sm">
+                            Back to Home
                         </Link>
                     </div>
                 </div>
