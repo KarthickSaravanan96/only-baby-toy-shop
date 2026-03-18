@@ -1,36 +1,45 @@
-import mongoose from 'mongoose';
 import dotenv from 'dotenv';
-import bcrypt from 'bcryptjs';
+import mongoose from 'mongoose';
 import User from '../models/User.js';
 import connectDB from '../config/db.js';
 
+// Load environment variables
 dotenv.config();
+
+// Connect to MongoDB
+connectDB();
 
 const seedAdmin = async () => {
     try {
-        await connectDB();
-
-        // Check if admin already exists
-        const adminExists = await User.findOne({ email: 'onlybaby7999@gmail.com' });
-
-        if (adminExists) {
-            console.log('Admin user already exists!');
-            process.exit(0);
-        }
-
-        // Create admin user
-        const adminUser = new User({
-            name: 'Raja',
+        const credentials = {
+            name: 'raja',
             email: 'onlybaby7999@gmail.com',
             password: 'onlybaby7999',
-            role: 'admin' // Ensure role is admin
-        });
+            role: 'admin'
+        };
 
-        await adminUser.save();
-        console.log('Admin user seeded successfully!');
+        console.log(`Checking for user: ${credentials.email}...`);
+
+        const existingUser = await User.findOne({ email: credentials.email });
+
+        if (existingUser) {
+            console.log(`User exists. Updating role to admin...`);
+            existingUser.role = 'admin';
+            // We need to keep the same password, but if we want to ensure it, we re-set it.
+            // Since User.js has a pre-save hook, this will re-hash it.
+            existingUser.password = credentials.password;
+            await existingUser.save();
+            console.log('✅ User updated to admin with the requested password.');
+        } else {
+            console.log(`Creating new admin user...`);
+            await User.create(credentials);
+            console.log('✅ Admin user created successfully.');
+        }
+
+        console.log('\n✨ Task completed!');
         process.exit(0);
     } catch (error) {
-        console.error('Error seeding admin user:', error);
+        console.error('❌ Error seeding admin:', error);
         process.exit(1);
     }
 };
